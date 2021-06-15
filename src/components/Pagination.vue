@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button v-for="(page, idx) in pages" :key="idx" @click="changePage(idx)">
+    <button v-for="(page, idx) in 4" :key="idx" @click="changePage(idx + 1)">
       {{ idx + 1 }}
     </button>
   </div>

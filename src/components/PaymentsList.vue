@@ -1,24 +1,23 @@
 <template>
   <div>
-    <table>
-      <tr>
-        <th>#</th>
-        <th>Date</th>
-        <th>Category</th>
-        <th>Value</th>
-      </tr>
-      <tr v-for="(item, index) in paymentsList" :key="index">
-        <td>{{ index+1 }}</td>
-        <td>{{ item.date }}</td>
-        <td>{{ item.category }}</td>
-        <td>{{ item.price }}</td>
-      </tr>
-    </table>
+    <v-data-table :headers="tableHeaders" :items="paymentsList"> </v-data-table>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      top: 0,
+      left: 0,
+      tableHeaders: [
+        { text: "#", value: "id" },
+        { text: "Date", value: "date" },
+        { text: "Category", value: "category" },
+        { text: "Value", value: "value" },
+      ],
+    };
+  },
   props: {
     paymentsList: {
       type: Array,
