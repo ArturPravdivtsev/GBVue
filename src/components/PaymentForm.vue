@@ -59,7 +59,7 @@ export default {
   mounted() {
     if (this.$route.params.category) {
       this.category = this.$route.params.category;
-      this.date = this.formatDate(new Date());
+      this.date = this.formatDate(new Date())
       if (this.$route.query.value) {
         this.value = this.$route.query.value;
         this.save();
