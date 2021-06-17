@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -41,11 +41,18 @@ export default {
       modal: false,
     };
   },
+  props: {
+    id: Number,
+  },
   methods: {
-    ...mapMutations(["addData"]),
+    ...mapMutations(["addData", "editData"]),
     save() {
-      const { date, category, value } = this;
-      this.addData({ date, category, value });
+      const { date, category, value, id } = this;
+      if (this.id) {
+        this.editData({ date, category, value, id });
+      } else {
+        this.addData({ date, category, value });
+      }
     },
     formatDate(date) {
       var dd = date.getDate();
@@ -56,13 +63,24 @@ export default {
       return dd + "." + mm + "." + yyyy;
     },
   },
+  computed: {
+    ...mapGetters(["getPaymentsList"]),
+  },
   mounted() {
     if (this.$route.params.category) {
       this.category = this.$route.params.category;
-      this.date = this.formatDate(new Date())
+      this.date = this.formatDate(new Date());
       if (this.$route.query.value) {
         this.value = this.$route.query.value;
         this.save();
+      }
+    }
+    if (this.id) {
+      const item = this.getPaymentsList.find((item) => item.id === this.id);
+      if (item) {
+        this.date = item.date;
+        this.category = item.category;
+        this.value = item.value;
       }
     }
   },

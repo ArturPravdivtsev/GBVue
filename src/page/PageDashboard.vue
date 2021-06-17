@@ -25,7 +25,9 @@
           @changePage="changePage"
         /> -->
       </v-col>
-      <v-col>DIAGRAM</v-col>
+      <v-col>
+        <pie-chart :data="fillData"></pie-chart>
+      </v-col>
     </v-row>
   </div>
 </template>
@@ -35,6 +37,7 @@ import PaymentsList from "../components/PaymentsList";
 import PaymentForm from "../components/PaymentForm";
 // import Pagination from "../components/Pagination";
 // import Modal from "../components/modals/Modal";
+import PieChart from "../plugins/chart/PieChart.js";
 
 import { mapMutations, mapActions, mapGetters } from "vuex";
 export default {
@@ -43,12 +46,16 @@ export default {
     PaymentForm,
     // Modal,
     // Pagination,
+    PieChart,
   },
   data() {
     return {
       modalFlag: false,
       pageNumber: 1,
       perPage: 3,
+      chartOptions: {
+        hoverBorderWidth: 20,
+      },
     };
   },
   methods: {
@@ -70,6 +77,32 @@ export default {
       const start = (this.pageNumber - 1) * this.perPage;
       const end = start + this.perPage;
       return this.getPaymentsList.slice(start, end);
+    },
+    fillData() {
+      let labels = [];
+      let data = [];
+      let backgroundColor = [];
+      this.getPaymentsList.forEach((item) => {
+        if (!labels.includes(item.category)) {
+          labels.push(item.category);
+          data.push(item.value);
+          backgroundColor.push(
+            "#" + ((Math.random() * 0xffffff) << 0).toString(16)
+          );
+        }
+      });
+      return {
+        hoverBackgroundColor: "red",
+        hoverBorderWidth: 10,
+        labels,
+        datasets: [
+          {
+            label: "Data One",
+            backgroundColor,
+            data,
+          },
+        ],
+      };
     },
   },
   mounted() {

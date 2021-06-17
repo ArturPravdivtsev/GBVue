@@ -40,14 +40,24 @@ export default new Vuex.Store({
             state.paymentsList.push(payload)
             console.log(state.paymentsList)
         },
+        editData(state, payload) {
+          console.log(payload)
+          const item = state.paymentsList.find((item) => item.id === payload.id);
+          if(item) {
+            Object.assign(item, payload)
+          }
+        },
         addPaymentsListData (state, payload) {
             const newUniqObjs = payload.filter(obj => {
               return state.paymentsListIDS.indexOf(obj.id) < 0
             })
-      
             const uniqIDS = newUniqObjs.map(obj => obj.id)
             state.paymentsListIDS.push(...uniqIDS)
             state.paymentsList.push(...newUniqObjs)
+        },
+        deleteItem(state, payload) {
+          state.paymentsListIDS = state.paymentsListIDS.filter(id => id !== payload)
+          state.paymentsList = state.paymentsList.filter(item => item.id !== payload)
         }
     },
     getters: {
