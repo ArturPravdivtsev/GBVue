@@ -6,6 +6,7 @@
       :return-value.sync="date"
       persistent
       width="290px"
+      name="dialog"
     >
       <template v-slot:activator="{ on }">
         <v-text-field
@@ -13,20 +14,23 @@
           label="Date"
           readonly
           v-on="on"
+          name="date-activator"
         ></v-text-field>
       </template>
-      <v-date-picker v-model="date" scrollable>
+      <v-date-picker v-model="date" scrollable name="date-picker">
         <v-spacer></v-spacer>
-        <v-btn text color="primary" @click="modal = false"> Cancel </v-btn>
+        <v-btn text color="primary" @click="modal = false" name="date-close">
+          Cancel
+        </v-btn>
         <v-btn text color="primary" @click="$refs.dialog.save(date)">
           OK
         </v-btn>
       </v-date-picker>
     </v-dialog>
-    <v-text-field v-model="category" label="Category" required></v-text-field>
-    <v-text-field v-model="value" label="Value" required></v-text-field>
+    <v-text-field v-model="category" label="Category" required name="category"></v-text-field>
+    <v-text-field v-model="value" label="Value" required name="value"></v-text-field>
 
-    <v-btn color="primary" @click="save">Save</v-btn>
+    <v-btn color="primary" @click="save" name="save">Save</v-btn>
   </div>
 </template>
 
