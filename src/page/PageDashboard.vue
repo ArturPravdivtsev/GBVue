@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <v-col>
-        <div class="text-h5 text-md-h3">My personal costs</div>
+        <div class="text-h5 text-md-h3 my-8">My personal costs</div>
         <v-dialog v-model="modalFlag">
           <template v-slot:activator="{ on }">
             <v-btn color="teal" dark @click="openModal" v-on="on">
