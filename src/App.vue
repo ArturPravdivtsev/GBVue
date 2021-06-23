@@ -1,28 +1,75 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-app-bar app>
+      <v-btn plain to="/dashboard">Dashboard</v-btn>
+      <v-btn plain to="/about">About</v-btn>
+      <v-btn plain to="/404">404</v-btn>
+    </v-app-bar>
+    <v-main>
+      <v-container fluid>
+        <transition name="fade">
+          <Modal
+            v-if="modalShown"
+            :name="modalShown"
+            :settings="modalSettings"
+          />
+        </transition>
+        <router-view />
+        <Context />
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Context from "./components/Context.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    Modal: () => import("./components/modals/Modal"),
+    Context,
+  },
+  data() {
+    return {
+      modalShown: false,
+      modalSettings: {},
+    };
+  },
+  methods: {
+    // ...mapActions([
+    //   'fetchData'
+    // ]),
+    onDataAdded(data) {
+      this.paymentsList.push(data);
+    },
+    onShown({ name, settings }) {
+      console.log(name);
+      this.modalShown = name;
+      this.modalSettings = settings;
+    },
+    onClose() {
+      this.modalShown = "";
+    },
+  },
+  mounted() {
+    // this.fetchListData(2)
+    this.$modal.EventBus.$on("show", this.onShown);
+    this.$modal.EventBus.$on("close", this.onClose);
+  },
+  beforeDestroy() {
+    this.$modal.EventBus.$off("show", this.onShown);
+    this.$modal.EventBus.$off("close", this.onClose);
+  },
+};
 </script>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
