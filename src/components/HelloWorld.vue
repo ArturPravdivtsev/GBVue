@@ -1,108 +1,151 @@
 <template>
-  <div class="hello">
-    <input v-model.number="op1" type="text" />
-    <input v-model.number="op2" type="text" />
-    = {{ Number(result) }}
-    <div>
-      <button @click="calculate('sum')">+</button>
-      <button @click="calculate('sub')">-</button>
-      <button @click="calculate('div')">/</button>
-      <button @click="calculate('mul')">*</button>
-      <button @click="calculate('exp')">X<sup>y</sup></button>
-      <button @click="calculate('intdiv')">\</button>
-    </div>
-    <br />
-    <input type="checkbox" id="show" v-model="showKeyboard" />
-    <label for="show">Отобразить экранную клавиатуру</label>
-    <div v-if="showKeyboard">
-      <div>
-        <span v-for="(item, idx) in buttonsArr" :key="idx">
-          <button @click="write(item)">{{ item }}</button>
-        </span>
-        <button @click="del">&larr;</button>
-      </div>
-      <div>
-        <input type="radio" id="one" value="one" v-model="operand" />
-        <label for="one">Операнд 1</label>
-        <br />
-        <input type="radio" id="two" value="two" v-model="operand" />
-        <label for="two">Операнд 2</label>
-      </div>
-    </div>
-  </div>
+  <v-container>
+    <v-row class="text-center">
+      <v-col cols="12">
+        <v-img
+          :src="require('../assets/logo.svg')"
+          class="my-3"
+          contain
+          height="200"
+        />
+      </v-col>
+
+      <v-col class="mb-4">
+        <h1 class="display-2 font-weight-bold mb-3">
+          Welcome to Vuetify
+        </h1>
+
+        <p class="subheading font-weight-regular">
+          For help and collaboration with other Vuetify developers,
+          <br>please join our online
+          <a
+            href="https://community.vuetifyjs.com"
+            target="_blank"
+          >Discord Community</a>
+        </p>
+      </v-col>
+
+      <v-col
+        class="mb-5"
+        cols="12"
+      >
+        <h2 class="headline font-weight-bold mb-3">
+          What's next?
+        </h2>
+
+        <v-row justify="center">
+          <a
+            v-for="(next, i) in whatsNext"
+            :key="i"
+            :href="next.href"
+            class="subheading mx-3"
+            target="_blank"
+          >
+            {{ next.text }}
+          </a>
+        </v-row>
+      </v-col>
+
+      <v-col
+        class="mb-5"
+        cols="12"
+      >
+        <h2 class="headline font-weight-bold mb-3">
+          Important Links
+        </h2>
+
+        <v-row justify="center">
+          <a
+            v-for="(link, i) in importantLinks"
+            :key="i"
+            :href="link.href"
+            class="subheading mx-3"
+            target="_blank"
+          >
+            {{ link.text }}
+          </a>
+        </v-row>
+      </v-col>
+
+      <v-col
+        class="mb-5"
+        cols="12"
+      >
+        <h2 class="headline font-weight-bold mb-3">
+          Ecosystem
+        </h2>
+
+        <v-row justify="center">
+          <a
+            v-for="(eco, i) in ecosystem"
+            :key="i"
+            :href="eco.href"
+            class="subheading mx-3"
+            target="_blank"
+          >
+            {{ eco.text }}
+          </a>
+        </v-row>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-export default {
-  name: "HelloWorld",
-  data: () => ({
-    operand: "",
-    op1: "",
-    op2: "",
-    result: 0,
-    buttonsArr: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-    showKeyboard: false,
-  }),
-  methods: {
-    calculate(op) {
-      console.log(op);
-      switch (op) {
-        case "sum":
-          this.result = this.op1 + this.op2;
-          break;
-        case "sub":
-          this.result = this.op1 - this.op2;
-          break;
-        case "div":
-          this.result = this.op1 / this.op2;
-          break;
-        case "mul":
-          this.result = this.op1 * this.op2;
-          break;
-        case "exp":
-          this.result = Math.pow(this.op1, this.op2);
-          break;
-        case "intdiv":
-          this.result = Math.floor(this.op1 / this.op2);
-          break;
-      }
-    },
-    write(item) {
-      if (this.operand === "one") {
-        this.op1 += String(item);
-      } else if (this.operand === "two") {
-        this.op2 += String(item);
-      }
-      this.op1 = Number(this.op1);
-      this.op2 = Number(this.op2);
-    },
-    del() {
-      if (this.operand === "one") {
-        this.op1 = String(this.op1).substring(0, String(this.op1).length - 1);
-      } else if (this.operand === "two") {
-        this.op2 = String(this.op2).substring(0, String(this.op2).length - 1);
-      }
-      this.op1 = Number(this.op1);
-      this.op2 = Number(this.op2);
-    },
-  },
-};
-</script>
+  export default {
+    name: 'HelloWorld',
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
+    data: () => ({
+      ecosystem: [
+        {
+          text: 'vuetify-loader',
+          href: 'https://github.com/vuetifyjs/vuetify-loader',
+        },
+        {
+          text: 'github',
+          href: 'https://github.com/vuetifyjs/vuetify',
+        },
+        {
+          text: 'awesome-vuetify',
+          href: 'https://github.com/vuetifyjs/awesome-vuetify',
+        },
+      ],
+      importantLinks: [
+        {
+          text: 'Documentation',
+          href: 'https://vuetifyjs.com',
+        },
+        {
+          text: 'Chat',
+          href: 'https://community.vuetifyjs.com',
+        },
+        {
+          text: 'Made with Vuetify',
+          href: 'https://madewithvuejs.com/vuetify',
+        },
+        {
+          text: 'Twitter',
+          href: 'https://twitter.com/vuetifyjs',
+        },
+        {
+          text: 'Articles',
+          href: 'https://medium.com/vuetify',
+        },
+      ],
+      whatsNext: [
+        {
+          text: 'Explore components',
+          href: 'https://vuetifyjs.com/components/api-explorer',
+        },
+        {
+          text: 'Select a layout',
+          href: 'https://vuetifyjs.com/getting-started/pre-made-layouts',
+        },
+        {
+          text: 'Frequently Asked Questions',
+          href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
+        },
+      ],
+    }),
+  }
+</script>
